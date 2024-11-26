@@ -1,4 +1,4 @@
-package game.Utils;
+package game;
 
 public class Question {
 

@@ -1,7 +1,5 @@
 package game;
 
-import game.Utils.BinaryTree;
-import game.Utils.Node;
 import game.Utils.Questions;
 
 public class Application {
@@ -18,15 +16,15 @@ public class Application {
     }
 
     private void resetGameTree(){
-        BinaryTree.add(new Node(1));
-        BinaryTree.add(new Node(2));
-        BinaryTree.add(new Node(3));
-        BinaryTree.add(new Node(4));
-        BinaryTree.add(new Node(5));
-        BinaryTree.add(new Node(6));
+        Dungeon.add(new Room(1));
+        Dungeon.add(new Room(2));
+        Dungeon.add(new Room(3));
+        Dungeon.add(new Room(4));
+        Dungeon.add(new Room(5));
+        Dungeon.add(new Room(6));
 
         // prints in preorder
-        BinaryTree.printTree();
+        Dungeon.printTree();
     }
 
     public void run(){

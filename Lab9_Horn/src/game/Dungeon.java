@@ -1,20 +1,20 @@
-package game.Utils;
+package game;
 
 import java.util.Random;
 
-public class BinaryTree {
+public class Dungeon {
 
-    private static Node rootNode;
-    private static Node currentNode;
+    private static Room rootNode;
+    private static Room currentNode;
 
-    public static void add(Node node){
+    public static void add(Room node){
         if(rootNode == null){
             rootNode = node;
             currentNode = node;
             return;
         }
         Random random = new Random();
-        Node insertedNode = rootNode;
+        Room insertedNode = rootNode;
         while (true) {
             if(random.nextInt(2)==0){
                 if(insertedNode.left==null){
@@ -38,7 +38,7 @@ public class BinaryTree {
         printRoot(rootNode);
     }
 
-    private static void printRoot(Node root){
+    private static void printRoot(Room root){
         if(root==null){
             return;
         }

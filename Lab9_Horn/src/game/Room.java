@@ -1,16 +1,18 @@
-package game.Utils;
+package game;
 
-public class Node {
-    Node left;
-    Node right;
-    Node previous;
+import game.Utils.Questions;
+
+public class Room {
+    Room left;
+    Room right;
+    Room previous;
     private int questionNumber;
 
-    public Node(int questionNumber){
+    public Room(int questionNumber){
         this.questionNumber = questionNumber;
     }
 
-    public Node(int questionNumber, Node previous){
+    public Room(int questionNumber, Room previous){
         this.questionNumber = questionNumber;
         this.previous = previous;
     }
