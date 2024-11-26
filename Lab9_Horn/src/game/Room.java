@@ -12,11 +12,6 @@ public class Room {
         this.questionNumber = questionNumber;
     }
 
-    public Room(int questionNumber, Room previous){
-        this.questionNumber = questionNumber;
-        this.previous = previous;
-    }
-
     private String nodeString;
     @Override
     public String toString() {

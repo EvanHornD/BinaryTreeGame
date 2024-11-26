@@ -1,6 +1,9 @@
 package game;
 
 import game.Utils.Questions;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Application {
 
@@ -16,12 +19,15 @@ public class Application {
     }
 
     private void resetGameTree(){
-        Dungeon.add(new Room(1));
-        Dungeon.add(new Room(2));
-        Dungeon.add(new Room(3));
-        Dungeon.add(new Room(4));
-        Dungeon.add(new Room(5));
-        Dungeon.add(new Room(6));
+        List<Integer> ints = new ArrayList<>();
+        for (int i = 0; i < Questions.size(); i++) {
+            ints.add(i);
+        }
+
+        Random random = new Random();
+        for (int i = 0; i < Questions.size(); i++) {
+            Dungeon.add(new Room(random.nextInt(Questions.size()-i)));
+        }
 
         // prints in preorder
         Dungeon.printTree();
@@ -29,6 +35,7 @@ public class Application {
 
     public void run(){
         while(gameIsRunning){
+            gameIsRunning=false;
 
         }
     }

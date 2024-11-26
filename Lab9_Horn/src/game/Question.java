@@ -2,8 +2,8 @@ package game;
 
 public class Question {
 
-    public static final int STRING_LENGTH=60;
-    public static final int HEADER_LENGTH=20;
+    public static final int STRING_LENGTH=120;
+    public static final int HEADER_LENGTH=40;
 
     String question;
     String[] answers;

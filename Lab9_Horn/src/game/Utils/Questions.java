@@ -1,11 +1,10 @@
 package game.Utils;
 
+import game.Question;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
-import game.Question;
 
 public class Questions {
 
@@ -112,6 +111,10 @@ public class Questions {
 
         // return question
         return questions.get(questionNumber);
+    }
+
+    public static int size(){
+        return questions.size();
     }
 
     public static void printQuestions(){
