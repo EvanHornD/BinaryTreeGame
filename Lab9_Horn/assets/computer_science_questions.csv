@@ -1,0 +1,10 @@
+4,What is the time complexity of binary search in a sorted array?,O(n),O(log n),O(n^2),O(n log n),2
+4,What is the worst-case time complexity of bubble sort?,O(n),O(n^2),O(log n),O(n log n),2
+4,Which data structure uses the concept of FIFO (First In First Out)?,Stack,Queue,Tree,Graph,2
+4,What is the average case time complexity of quicksort?,O(n),O(n log n),O(log n),O(n^2),2
+4,What is the best time complexity of selection sort?,O(n),O(log n),O(1),O(n^2),1
+4,In a binary search tree what is the time complexity to search for an element in the worst case?,O(log n),O(n log n),O(n),O(n^2),3
+4,Which of these data structures is best for implementing a priority queue?,Array,Linked List,Heap,Binary Search Tree,3
+4,What is the space complexity of merge sort?,O(1),O(log n),O(n),O(n log n),4
+4,Which sorting algorithm has the best average time complexity?,Selection Sort,Bubble Sort,Quick Sort,Merge Sort,4
+4,What is the time complexity of inserting an element at the beginning of a linked list?,O(1),O(n),O(log n),O(n^2),1
