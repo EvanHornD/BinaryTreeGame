@@ -98,10 +98,12 @@ public class MultipleChoice extends Question{
         if(!Application.gameIsRunning){
             return true;
         }
-        if(Integer.parseInt(userAnswer)==correctAnswer){
-            answered=true;
-            return true;
-        }
+        try {
+            if(Integer.parseInt(userAnswer)==correctAnswer){
+                answered=true;
+                return true;
+            }
+        } catch (Exception e) {}
         return false;
     }
 }
