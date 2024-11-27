@@ -3,15 +3,21 @@ package game.Utils;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import game.Question;
+import game.QuestionTypes.FinishRoom;
+import game.QuestionTypes.MultipleChoice;
+import game.QuestionTypes.OpenEnded;
+import game.QuestionTypes.Question;
 
 public class Questions {
 
 
-    private static List<Question> questions;
+    private static Question[] questions;
+    private static Question[] finishMessages;
     private static int numOfQuestions;
+    private static int numOfFinishMessages;
 
     private static String source;
     private static String[] splitString;
@@ -28,13 +34,16 @@ public class Questions {
         splitString = splitString(source,',');
 
         // create a list of questions from the array af strings
-        questions = createQuestionsArray(splitString);
-        numOfQuestions = questions.size();
+        Question[][] arrays = createQuestionsArrays(splitString);
+        questions = arrays[0];
+        numOfQuestions = questions.length;
+        finishMessages = arrays[1];
+        numOfFinishMessages = finishMessages.length;
     }
 
     private static String[] splitString(String s, char delimeter){
         // get number of substrings
-        int numOfStrings = 0;
+        int numOfStrings = 1;
         for (int i = 0; i < s.length(); i++) {
             char currChar = s.charAt(i);
             if(currChar==delimeter||currChar=='\n'){
@@ -63,55 +72,133 @@ public class Questions {
         return splitStrings;
     }
 
-    private static List<Question> createQuestionsArray(String[] strings){
+    private static Question[][] createQuestionsArrays(String[] strings){
 
         List<Question> Questions = new ArrayList<>();
+        List<Question> finishMessages = new ArrayList<>();
+
+        for (int i = 0; i < strings.length; i++) {
+            System.out.println(strings[i]);
+        }
 
         for (int i = 0; i < strings.length; i++) {
 
-            // File Format
-
-            // NumberOfAnswers      Question    Answers     CorrectAnswer
-            // int                  String      String[]    int
-
-            // get the numberOfAnswers
-            int numberOfAnswers = Integer.parseInt(strings[i]);     
+            String question;
+            
+            String questionType = strings[i];
             i++;
 
-            // get the question
-            String Question = strings[i];                           
-            i++;
+            switch(questionType){
+                case "MultipleChoice":
 
-            // get the array of answers
-            String[] answers = new String[numberOfAnswers];         
-            for (int j = 0; j<answers.length; j++) {
-                answers[j] = strings[i];                                
-                i++;
+                    // MultipleChoice format
+                    // NumberOfAnswers      Question    Answers     CorrectAnswer
+                    // int                  String      String[]    int
+
+                    // Example 4,What is the space complexity of merge sort?,O(1),O(log n),O(n),O(n log n),4
+
+                    // get the numberOfAnswers
+                    int numberOfAnswers = Integer.parseInt(strings[i]);
+                    i++;
+
+                    // get the question
+                    question = strings[i];                           
+                    i++;
+
+                    // get the array of answers
+                    String[] answers = new String[numberOfAnswers];         
+                    for (int j = 0; j<answers.length; j++) {
+                        answers[j] = strings[i];                                
+                        i++;
+                    }
+
+                    // get the correct answer
+                    int correctAnswerNumber = 0;
+
+                    Questions.add(new MultipleChoice(question, answers, correctAnswerNumber));
+                break;
+
+                case "OpenEnded":
+
+                    // OpenEnded format
+                    // Question     AnswerFormat        CorrectAnswer
+                    // String       String              String
+
+                    // Example What is the method header for removing an item from a stack,(EG. Add() Clear()), Pop()
+
+                    // get the question
+                    question = strings[i];                           
+                    i++;
+
+                    // get the array of answers
+                    String answerFormat = strings[i];
+                    i++;
+
+                    // get the correct answer
+                    String correctAnswer = strings[i];
+
+
+                    Questions.add(new OpenEnded(question, answerFormat, correctAnswer));
+                break;
+
+                case "FinishRoom":
+
+                    // MultipleChoice
+                    // finishMessage        congratsMessage
+                    // String               String
+
+                    // Example The End, Thank you For playing the game. You Win!
+
+                    // get the question
+                    String finishMessage = strings[i];
+                    i++;
+
+                    // get the array of answers
+                    System.err.println(strings[i-1]);
+                    String congratsMessage = strings[i];
+
+                    finishMessages.add(new FinishRoom(finishMessage, congratsMessage));
+                break;
             }
-
-            // get the correct answer
-            int correctAnswer = 0;
-
-            Questions.add(new Question(Question, answers, correctAnswer));
         }
-        return Questions;
+        return new Question[][]{
+            Questions.toArray(new Question[0]),
+            finishMessages.toArray(new Question[0])
+        };
     }
 
     public static Question getQuestion(int questionNumber){
         // check if array is empty
-        if(questions.isEmpty()){
+        if(numOfQuestions==0){
             System.out.println("The List Of Questions, was empty");
-            return new Question();
+            return new OpenEnded();
         }
 
         // check if out of bounds
         if(questionNumber<0||questionNumber>=numOfQuestions){
             System.out.println("trying to index Question Array out of bounds");
-            return new Question();
+            return new OpenEnded();
         }
 
         // return question
-        return questions.get(questionNumber);
+        return questions[questionNumber];
+    }
+
+    public static Question getFinishMessage(int messageNumber){
+        // check if array is empty
+        if(numOfFinishMessages==0){
+            System.out.println("The List Of Messages, was empty");
+            return new FinishRoom();
+        }
+
+        // check if out of bounds
+        if(messageNumber<0||messageNumber>=numOfFinishMessages){
+            System.out.println("trying to index FinishMessage Array out of bounds");
+            return new FinishRoom();
+        }
+
+        // return question
+        return finishMessages[messageNumber];
     }
 
     public static void printQuestions(){

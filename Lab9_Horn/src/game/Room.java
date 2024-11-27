@@ -1,20 +1,16 @@
 package game;
 
+import game.QuestionTypes.Question;
 import game.Utils.Questions;
 
 public class Room {
     Room left;
     Room right;
     Room previous;
-    private int questionNumber;
+    private Question question;
 
-    public Room(int questionNumber){
-        this.questionNumber = questionNumber;
-    }
-
-    public Room(int questionNumber, Room previous){
-        this.questionNumber = questionNumber;
-        this.previous = previous;
+    public Room(int question){
+        this.question = Questions.getQuestion(question);
     }
 
     private String nodeString;
@@ -32,11 +28,11 @@ public class Room {
 
         if(previous!=null){
             s+=" ".repeat((Question.STRING_LENGTH/2)-(Question.HEADER_LENGTH/2));
-            s+=Questions.getQuestion(previous.questionNumber).getHeader()+"\n";
+            s+=previous.question.getHeader()+"\n";
             s+=" ".repeat((Question.STRING_LENGTH/2))+"|"+"\n";
         }
 
-        s+=Questions.getQuestion(questionNumber).toString();
+        s+=question.toString();
 
         s+=" ".repeat(Question.HEADER_LENGTH/2)+"|";
         s+=" ".repeat((Question.STRING_LENGTH-Question.HEADER_LENGTH)-1)+"|\n";
@@ -44,7 +40,7 @@ public class Room {
         if(left==null){
             s+=" ".repeat((Question.HEADER_LENGTH/2)-2)+"null"+" ".repeat((Question.HEADER_LENGTH/2)-2);
         }else{
-            s+=Questions.getQuestion(left.questionNumber).getHeader();
+            s+=left.question.getHeader();
         }
 
         s+= " ".repeat(Question.STRING_LENGTH-(2*Question.HEADER_LENGTH));
@@ -52,7 +48,7 @@ public class Room {
         if(right==null){
             s+=" ".repeat((Question.HEADER_LENGTH/2)-2)+"null";
         }else{
-            s+=Questions.getQuestion(right.questionNumber).getHeader();
+            s+=right.question.getHeader();
         }
         s+="\n";
 
