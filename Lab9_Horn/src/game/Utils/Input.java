@@ -19,7 +19,7 @@ public class Input {
         "right",1
     ));
 
-    private static final String EXIT = "exit"; 
+    public static final String EXIT = "exit"; 
 
     public static Input instance;
     public Input(){}
@@ -37,6 +37,7 @@ public class Input {
         if(input.equals(EXIT)){
             Application.gameIsRunning=false;
             Printer.printGameEnd(null);
+            return -2;
         }
         if(!MOVEMENT_COMMANDS.containsKey(input)){
             return -1;
@@ -46,6 +47,7 @@ public class Input {
 
     public static String getAnswer(){
         String input = userInput.nextLine();
+        System.out.println();
         if(input.equals(EXIT)){
             Application.gameIsRunning=false;
             Printer.printGameEnd(null);

@@ -63,6 +63,8 @@ public class Dungeon {
                 }
                 currentRoom = currentRoom.previous;
             break;
+            case-2:
+            break;
             default:
             Printer.printRoomTraversal(currentRoom);
                 System.out.println("Invalid Move Direction");
@@ -73,6 +75,9 @@ public class Dungeon {
 
     public static void traverse(){
         currentRoom.answer();
+        if(!Application.gameIsRunning){
+            return;
+        }
         Printer.printRoomTraversal(currentRoom);
         while(!Move(Input.getMovement())){}
     }

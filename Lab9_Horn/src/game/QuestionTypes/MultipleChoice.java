@@ -1,5 +1,7 @@
 package game.QuestionTypes;
 
+import game.Application;
+
 public class MultipleChoice extends Question{
     String[] answers;
     int correctAnswer;
@@ -93,6 +95,9 @@ public class MultipleChoice extends Question{
 
     @Override
     public boolean isCorrect(String userAnswer) {
+        if(!Application.gameIsRunning){
+            return true;
+        }
         if(Integer.parseInt(userAnswer)==correctAnswer){
             answered=true;
             return true;

@@ -85,6 +85,7 @@ public class Room {
             if (Printer.health<=0) {
                 Application.gameIsRunning=false;
                 Printer.printGameEnd(true);
+                return;
             }
             Printer.printQuestionAnswering(question, false);
         }

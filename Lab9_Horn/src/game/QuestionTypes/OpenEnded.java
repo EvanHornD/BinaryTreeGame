@@ -1,5 +1,7 @@
 package game.QuestionTypes;
 
+import game.Application;
+
 public class OpenEnded extends Question{
     String answerFormat;
     String answer;
@@ -87,6 +89,9 @@ public class OpenEnded extends Question{
 
     @Override
     public boolean isCorrect(String userAnswer) {
+        if(!Application.gameIsRunning){
+            return true;
+        }
         if(userAnswer.toLowerCase().equals(answer)){
             answered=true;
             return true;
