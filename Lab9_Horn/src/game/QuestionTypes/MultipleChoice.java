@@ -28,11 +28,13 @@ public class MultipleChoice extends Question{
 
     public String createString(){
         String questionString = createQuestionString();
+        String formatString = createFormatString();
         String answersString = createAnswerChoicesString();
         String s =
         "#"+ "=".repeat(STRING_LENGTH) +"#\n"+
         questionString+
-        "|\n"+"#"+ "-".repeat(STRING_LENGTH) +"#\n"+
+        "#"+ "-".repeat(STRING_LENGTH) +"#\n"+
+        formatString+
         answersString+
         "#"+ "=".repeat(STRING_LENGTH) +"#\n";
         questionString = s;
@@ -56,23 +58,45 @@ public class MultipleChoice extends Question{
         return s;
     }
 
+    private String createFormatString(){
+        String formatString = "--input 1-"+answers.length+"--";
+        String s = "|"+
+        " ".repeat((STRING_LENGTH/2)-(formatString.length()/2))+formatString+" ".repeat((STRING_LENGTH/2)-(formatString.length()/2)-1)+"|\n";
+        return s;
+    }
+
     private String createAnswerChoicesString(){
         String s = "";
         for (int i = 0; i<answers.length; i++) {
+            int offset = 5;
             String answer = answers[i];
-            s+="|" + i + ".";
+            s+="|";
+            if(answered&&i+1==correctAnswer){
+                s+="-->";
+                offset+=3;
+            }
+            s+= i+1 + ".";
             for (int j = 0; j < answer.length(); j++) {
-                if(j>=STRING_LENGTH-5){
+                if(j>=STRING_LENGTH-offset){
                     s+="...";
                     break;
                 }
                 s+=answer.charAt(j);
             }
-            if(answer.length()<STRING_LENGTH-5){
-                s+= " ".repeat((STRING_LENGTH-2)-answer.length());
+            if(answer.length()<STRING_LENGTH-offset){
+                s+= " ".repeat((STRING_LENGTH-(offset-3))-answer.length());
             }
             s+="|\n";
         }
         return s;
+    }
+
+    @Override
+    public boolean isCorrect(String userAnswer) {
+        if(Integer.parseInt(userAnswer)==correctAnswer){
+            answered=true;
+            return true;
+        }
+        return false;
     }
 }

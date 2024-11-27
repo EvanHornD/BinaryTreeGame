@@ -1,5 +1,6 @@
 package game;
 
+import game.Utils.Input;
 import game.Utils.Questions;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Random;
 
 public class Application {
 
-    private boolean gameIsRunning = true;
+    public static boolean gameIsRunning = true;
 
     public Application(){
         init();
@@ -26,17 +27,21 @@ public class Application {
 
         Random random = new Random();
         for (int i = 0; i < Questions.size(); i++) {
-            Dungeon.add(new Room(random.nextInt(Questions.size()-i)));
+            int index = random.nextInt(Questions.size()-i);
+            int questionNumber = ints.get(index);
+            Dungeon.add(new Room("QuestionRoom",questionNumber));
+            ints.remove(index);
         }
 
-        // prints in preorder
-        Dungeon.printTree();
+        Dungeon.add(new Room("FinishRoom",Questions.finishMessagesSize()-1));
+        // prints in inorder
+        //Dungeon.printTree();
     }
 
     public void run(){
+        Input.printMovement();
         while(gameIsRunning){
-            gameIsRunning=false;
-
+            Dungeon.traverse();
         }
     }
 

@@ -2,13 +2,15 @@ package game.QuestionTypes;
 
 public abstract class Question {
 
-    public static final int STRING_LENGTH=60;
-    public static final int HEADER_LENGTH=20;
+    public static final int STRING_LENGTH=120;
+    public static final int HEADER_LENGTH=50;
 
     String question;
+    public boolean answered;
 
     public Question(String question){
         this.question = question;
+        answered=false;
     }
 
     private String questionHeader;
@@ -35,4 +37,6 @@ public abstract class Question {
         questionHeader = s;
         return s;
     }
+
+    public abstract boolean isCorrect(String s);
 }

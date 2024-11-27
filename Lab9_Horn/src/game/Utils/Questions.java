@@ -1,10 +1,8 @@
 package game.Utils;
 
-import game.Question;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import game.QuestionTypes.FinishRoom;
@@ -68,6 +66,7 @@ public class Questions {
                 currString += currChar;
             }
         }
+        splitStrings[currStringNum]=currString;
 
         // return final array
         return splitStrings;
@@ -77,10 +76,6 @@ public class Questions {
 
         List<Question> Questions = new ArrayList<>();
         List<Question> finishMessages = new ArrayList<>();
-
-        for (int i = 0; i < strings.length; i++) {
-            System.out.println(strings[i]);
-        }
 
         for (int i = 0; i < strings.length; i++) {
 
@@ -114,7 +109,7 @@ public class Questions {
                     }
 
                     // get the correct answer
-                    int correctAnswerNumber = 0;
+                    int correctAnswerNumber = Integer.parseInt(""+strings[i].charAt(0));
 
                     Questions.add(new MultipleChoice(question, answers, correctAnswerNumber));
                 break;
@@ -131,12 +126,12 @@ public class Questions {
                     question = strings[i];                           
                     i++;
 
-                    // get the array of answers
+                    // get the answer format
                     String answerFormat = strings[i];
                     i++;
 
                     // get the correct answer
-                    String correctAnswer = strings[i];
+                    String correctAnswer = strings[i].substring(0,strings[i].length()-1);
 
 
                     Questions.add(new OpenEnded(question, answerFormat, correctAnswer));
@@ -150,13 +145,12 @@ public class Questions {
 
                     // Example The End, Thank you For playing the game. You Win!
 
-                    // get the question
+                    // get the finish message
                     String finishMessage = strings[i];
                     i++;
 
-                    // get the array of answers
-                    System.err.println(strings[i-1]);
-                    String congratsMessage = strings[i];
+                    // get the congrats message
+                    String congratsMessage = strings[i].substring(0,strings[i].length()-1);
 
                     finishMessages.add(new FinishRoom(finishMessage, congratsMessage));
                 break;
@@ -185,7 +179,7 @@ public class Questions {
         return questions[questionNumber];
     }
 
-    public static Question getFinishMessage(int messageNumber){
+    public static Question getFinishRoom(int messageNumber){
         // check if array is empty
         if(numOfFinishMessages==0){
             System.out.println("The List Of Messages, was empty");
@@ -203,7 +197,11 @@ public class Questions {
     }
 
     public static int size(){
-        return questions.size();
+        return numOfQuestions;
+    }
+
+    public static int finishMessagesSize(){
+        return numOfFinishMessages;
     }
 
     public static void printQuestions(){

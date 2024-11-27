@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import game.Application;
 import game.QuestionTypes.Question;
 
 public class Input {
@@ -17,6 +18,8 @@ public class Input {
         "back",2,
         "right",1
     ));
+
+    private static final String EXIT = "exit"; 
 
     public static Input instance;
     public Input(){}
@@ -31,10 +34,23 @@ public class Input {
 
     public static int getMovement(){
         String input = userInput.nextLine().toLowerCase();
+        if(input.equals(EXIT)){
+            Application.gameIsRunning=false;
+            Printer.printGameEnd(null);
+        }
         if(!MOVEMENT_COMMANDS.containsKey(input)){
             return -1;
         }
         return MOVEMENT_COMMANDS.get(input);
+    }
+
+    public static String getAnswer(){
+        String input = userInput.nextLine();
+        if(input.equals(EXIT)){
+            Application.gameIsRunning=false;
+            Printer.printGameEnd(null);
+        }
+        return input;
     }
 
     private static String movementString; 
@@ -50,7 +66,7 @@ public class Input {
         "#"+ "=".repeat(commandsLength) +"#\n"+
         '|'+" ".repeat((commandsLength/2)-(MOVEMENT_HEADER.length()/2))+MOVEMENT_HEADER+" ".repeat((commandsLength/2)-(MOVEMENT_HEADER.length()/2)-1)+"|\n"+
         "#"+ "-".repeat(commandsLength) +"#\n"+
-        '|'+" ".repeat((commandsLength/2)-(commandString.length()/2))+commandString+" ".repeat((commandsLength/2)-(commandString.length()/2)-1)+"|\n"+
+        '|'+" ".repeat((commandsLength/2)-(commandString.length()/2))+commandString+" ".repeat((commandsLength/2)-(commandString.length()/2))+"|\n"+
         "#"+ "=".repeat(commandsLength) +"#";
         movementString=s;
         System.out.println(s);
@@ -72,6 +88,7 @@ public class Input {
                 s+='|';
             }
         }
+        s+="|"+EXIT;
         return s;
     }
 }

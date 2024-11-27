@@ -1,6 +1,8 @@
 package game;
 
 import game.QuestionTypes.Question;
+import game.Utils.Input;
+import game.Utils.Printer;
 import game.Utils.Questions;
 
 public class Room {
@@ -9,8 +11,19 @@ public class Room {
     Room previous;
     private Question question;
 
-    public Room(int question){
-        this.question = Questions.getQuestion(question);
+    public Room(String roomType, int roomNumber){
+        switch (roomType) {
+            case "QuestionRoom":
+                this.question = Questions.getQuestion(roomNumber);
+            break;
+            case "FinishRoom":
+                this.question = Questions.getFinishRoom(roomNumber);
+                System.out.println(question);
+            break;
+            default:
+                System.out.println("There was an Error inputing '"+roomType+", "+roomNumber+"'");
+            break;
+        }
     }
 
     private String nodeString;
@@ -34,25 +47,46 @@ public class Room {
 
         s+=question.toString();
 
-        s+=" ".repeat(Question.HEADER_LENGTH/2)+"|";
-        s+=" ".repeat((Question.STRING_LENGTH-Question.HEADER_LENGTH)-1)+"|\n";
+        if(left==null){
+            s+=" ".repeat((Question.STRING_LENGTH-(Question.HEADER_LENGTH/2)));
+        } else{
+            s+=" ".repeat(Question.HEADER_LENGTH/2)+"|";
+            s+=" ".repeat((Question.STRING_LENGTH-Question.HEADER_LENGTH)-1);
+        }
+        if(right!=null){
+            s+="|";
+        }
+        s+="\n";
 
         if(left==null){
-            s+=" ".repeat((Question.HEADER_LENGTH/2)-2)+"null"+" ".repeat((Question.HEADER_LENGTH/2)-2);
+            s+=" ".repeat(Question.HEADER_LENGTH);
         }else{
             s+=left.question.getHeader();
         }
 
         s+= " ".repeat(Question.STRING_LENGTH-(2*Question.HEADER_LENGTH));
 
-        if(right==null){
-            s+=" ".repeat((Question.HEADER_LENGTH/2)-2)+"null";
-        }else{
+        if(right!=null){
             s+=right.question.getHeader();
         }
         s+="\n";
 
         nodeString = s;
         return s;
+    }
+
+    public void answer(){
+        if(question.answered){
+            return;
+        }
+        Printer.printQuestionAnswering(question, null);
+        while(!question.isCorrect(Input.getAnswer())){
+            Printer.health--;
+            if (Printer.health<=0) {
+                Application.gameIsRunning=false;
+                Printer.printGameEnd(true);
+            }
+            Printer.printQuestionAnswering(question, false);
+        }
     }
 }
