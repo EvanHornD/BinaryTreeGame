@@ -1,5 +1,6 @@
 package game.Utils;
 
+import game.Question;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -199,6 +200,10 @@ public class Questions {
 
         // return question
         return finishMessages[messageNumber];
+    }
+
+    public static int size(){
+        return questions.size();
     }
 
     public static void printQuestions(){
