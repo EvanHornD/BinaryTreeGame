@@ -1,10 +1,9 @@
 package game;
 
-import game.Utils.Input;
-import game.Utils.Questions;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import game.Components.TextComponent;
+import game.Components.Transform;
+import game.Printing.Printer;
+import game.Utils.Vector2;
 
 public class Application {
 
@@ -15,33 +14,34 @@ public class Application {
     }
 
     private void init(){
-        Questions.readFile("Lab9_Horn\\assets\\computer_science_questions.csv");
-        resetGameTree();
-    }
+        Printer.width = 40;
+        Printer.height = 20;
 
-    private void resetGameTree(){
-        List<Integer> ints = new ArrayList<>();
-        for (int i = 0; i < Questions.size(); i++) {
-            ints.add(i);
-        }
+        Entity text1 = new Entity("obj1", new Transform(new Vector2(0, 0)), 0);
+        text1.addComponent(new TextComponent("New Game", 0xffff, new Transform(new Vector2(1, 0))));
+        Printer.addToLayers(text1);
 
-        Random random = new Random();
-        for (int i = 0; i < Questions.size(); i++) {
-            int index = random.nextInt(Questions.size()-i);
-            int questionNumber = ints.get(index);
-            Dungeon.add(new Room("QuestionRoom",questionNumber));
-            ints.remove(index);
-        }
-
-        Dungeon.add(new Room("FinishRoom",Questions.finishMessagesSize()-1));
-        // prints in inorder
-        //Dungeon.printTree();
+        Entity text2 = new Entity("obj2", new Transform(new Vector2(0, 0)), 1);
+        text2.addComponent(new TextComponent("Hello", 0xff0000, new Transform(new Vector2(3, 0))));
+        Printer.addToLayers(text2);
     }
 
     public void run(){
-        Input.printMovement();
-        while(gameIsRunning){
-            Dungeon.traverse();
+        Printer.clearTerminal();
+        System.out.println("-".repeat(Printer.width));
+        Printer.print();
+        System.out.println("-".repeat(Printer.width));
+
+        Entity textEntity = Printer.getEntity("obj2");
+        TextComponent text = textEntity.getComponent("Text");
+        text.move(new Vector2(0,1));
+        Printer.update();
+
+        //Printer.clearTerminal();
+        System.out.println("-".repeat(Printer.width));
+        Printer.print();
+        System.out.println("-".repeat(Printer.width));
+        while (gameIsRunning) {
         }
     }
 
