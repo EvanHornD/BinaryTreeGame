@@ -1,9 +1,10 @@
-package game;
+package AbandonedCode;
 
 import java.util.Random;
 
+import game.Application;
+import game.Printing.Printer;
 import game.Utils.Input;
-import game.Utils.Printer;
 
 public class Dungeon {
 
@@ -41,7 +42,7 @@ public class Dungeon {
         switch (direction) {
             case 0: // move left
                 if(currentRoom.left==null){
-                    Printer.printRoomTraversal(currentRoom);
+                    //Printer.printRoomTraversal(currentRoom);
                     System.out.println("There is no room to the left.");
                     return false;
                 }
@@ -49,7 +50,7 @@ public class Dungeon {
             break;
             case 1: // move right
                 if(currentRoom.right==null){
-                    Printer.printRoomTraversal(currentRoom);
+                    //Printer.printRoomTraversal(currentRoom);
                     System.out.println("There is no room to the right.");
                     return false;
                 }
@@ -57,7 +58,7 @@ public class Dungeon {
             break;
             case 2: // move back
                 if(currentRoom.previous==null){
-                    Printer.printRoomTraversal(currentRoom);
+                    //Printer.printRoomTraversal(currentRoom);
                     System.out.println("There is room before this.");
                     return false;
                 }
@@ -66,7 +67,7 @@ public class Dungeon {
             case-2:
             break;
             default:
-            Printer.printRoomTraversal(currentRoom);
+            //Printer.printRoomTraversal(currentRoom);
                 System.out.println("Invalid Move Direction");
             break;
         }
@@ -78,7 +79,7 @@ public class Dungeon {
         if(!Application.gameIsRunning){
             return;
         }
-        Printer.printRoomTraversal(currentRoom);
+        //Printer.printRoomTraversal(currentRoom);
         while(!Move(Input.getMovement())){}
     }
 

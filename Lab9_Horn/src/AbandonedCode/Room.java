@@ -1,9 +1,9 @@
-package game;
+package AbandonedCode;
 
-import game.QuestionTypes.Question;
+import AbandonedCode.QuestionTypes.Question;
+import game.Application;
+import game.Printing.Printer;
 import game.Utils.Input;
-import game.Utils.Printer;
-import game.Utils.Questions;
 
 public class Room {
     Room left;
@@ -79,15 +79,15 @@ public class Room {
         if(question.answered){
             return;
         }
-        Printer.printQuestionAnswering(question, null);
-        while(!question.isCorrect(Input.getAnswer())){
-            Printer.health--;
-            if (Printer.health<=0) {
-                Application.gameIsRunning=false;
-                Printer.printGameEnd(true);
-                return;
-            }
-            Printer.printQuestionAnswering(question, false);
-        }
+        //Printer.printQuestionAnswering(question, null);
+        //while(!question.isCorrect(Input.getAnswer())){
+        //    Printer.health--;
+        //    if (Printer.health<=0) {
+        //        Application.gameIsRunning=false;
+        //        Printer.printGameEnd(true);
+        //        return;
+        //    }
+        //    Printer.printQuestionAnswering(question, false);
+        //}
     }
 }

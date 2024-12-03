@@ -1,14 +1,14 @@
-package game.Utils;
+package AbandonedCode;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.QuestionTypes.FinishRoom;
-import game.QuestionTypes.MultipleChoice;
-import game.QuestionTypes.OpenEnded;
-import game.QuestionTypes.Question;
+import AbandonedCode.QuestionTypes.FinishRoom;
+import AbandonedCode.QuestionTypes.MultipleChoice;
+import AbandonedCode.QuestionTypes.OpenEnded;
+import AbandonedCode.QuestionTypes.Question;
 
 public class Questions {
 
@@ -111,7 +111,7 @@ public class Questions {
                     // get the correct answer
                     int correctAnswerNumber = Integer.parseInt(""+strings[i].charAt(0));
 
-                    Questions.add(new MultipleChoice(question, answers, correctAnswerNumber));
+                    Questions.add(new MultipleChoice());
                 break;
 
                 case "OpenEnded":
@@ -123,7 +123,7 @@ public class Questions {
                     // Example What is the method header for removing an item from a stack,(EG. Add() Clear()), Pop()
 
                     // get the question
-                    question = strings[i];                           
+                    question = strings[i];
                     i++;
 
                     // get the answer format
@@ -134,7 +134,7 @@ public class Questions {
                     String correctAnswer = strings[i].substring(0,strings[i].length()-1);
 
 
-                    Questions.add(new OpenEnded(question, answerFormat, correctAnswer));
+                    Questions.add(new OpenEnded());
                 break;
 
                 case "FinishRoom":
@@ -152,7 +152,7 @@ public class Questions {
                     // get the congrats message
                     String congratsMessage = strings[i].substring(0,strings[i].length()-1);
 
-                    finishMessages.add(new FinishRoom(finishMessage, congratsMessage));
+                    finishMessages.add(new FinishRoom());
                 break;
             }
         }
