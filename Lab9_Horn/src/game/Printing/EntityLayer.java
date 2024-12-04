@@ -58,7 +58,9 @@ public class EntityLayer implements Comparable<EntityLayer> {
     private TextComponent[] updateTextArray(){
         List<TextComponent> textArray = new ArrayList<>();
         for (Entity entity : entityArray) {
-            textArray.addAll(entity.getText());
+            if(entity.getComponent("Text")!=null){
+                textArray.add(entity.getComponent("Text"));
+            }
         }
         return textArray.toArray(new TextComponent[0]);
     }

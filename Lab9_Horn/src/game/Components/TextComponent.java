@@ -1,31 +1,57 @@
 package game.Components;
 
 import game.Utils.Components;
-import game.Utils.Vector2;
 
 public class TextComponent extends Component {
     private int color;
-    private Transform position;
+    private int backGroundColor;
     private String text;
+    private boolean transparent;
 
     static {
         Components.add("Text",TextComponent.class);
     }
 
-    public TextComponent(String text, Transform position){
+    public TextComponent(String text){
         this.color = 0xffffff;
+        this.backGroundColor = 0;
         this.text = text;
-        this.position = position;
+        this.transparent = false;
     }
 
-    public TextComponent(String text, int color, Transform position){
+    public TextComponent(String text, int color){
         this.text = text;
         this.color = color;
-        this.position = position;
+        this.backGroundColor = 0;
+        this.transparent = false;
     }
 
-    public void move(Vector2 vector){
-        position.movePosition(vector);
+    public TextComponent(String text, int color, boolean transparent){
+        this.text = text;
+        this.color = color;
+        this.backGroundColor = 0;
+        this.transparent = transparent;
+    }
+
+    public TextComponent(String text, boolean transparent){
+        this.text = text;
+        this.color = 0xffffff;
+        this.backGroundColor = 0;
+        this.transparent = transparent;
+    }
+
+    public TextComponent(String text, int color, int backGroundColor){
+        this.text = text;
+        this.color = color;
+        this.backGroundColor = backGroundColor;
+        this.transparent = false;
+    }
+
+    public TextComponent(String text, int color, int backGroundColor, boolean transparent){
+        this.text = text;
+        this.color = color;
+        this.backGroundColor = backGroundColor;
+        this.transparent = transparent;
     }
 
     public int getColor(){
@@ -33,15 +59,18 @@ public class TextComponent extends Component {
     }
 
     public Transform getPosition(){
-        return this.position;
+        return this.entity.position;
+    }
+
+    public boolean getTransparency(){
+        return this.transparent;
+    }
+
+    public int getBackGroundColor(){
+        return this.backGroundColor;
     }
 
     public String getString(){
         return this.text;
-    }
-
-    @Override
-    public TextComponent getText() {
-        return this;
     }
 }

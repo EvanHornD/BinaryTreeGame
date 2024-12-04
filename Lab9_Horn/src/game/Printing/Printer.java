@@ -1,6 +1,7 @@
 package game.Printing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public final class Printer {
 	}
     */
 
-    private static int[] colorWindow;
+    private static int[] textColorWindow;
 
     /* color window format
 	{int,int,int,..., width times
@@ -41,6 +42,19 @@ public final class Printer {
 	}
      */
 
+    private static int[] backGroundColorWindow;
+
+    /* color window format
+    {int,int,int,..., width times
+     int,int,int,...,
+     int,int,int,...,
+     .,
+     .,
+     .,
+     height times
+    }
+     */
+    
     public static Entity getEntity(String name){
         for (EntityLayer layer : layers) {
             if (layer.containsEntity(name)) {
@@ -84,13 +98,17 @@ public final class Printer {
         }
         if(textWindow==null){
             textWindow = new char[width*height];
-            colorWindow = new int[width*height];
-            for (int i=0; i<colorWindow.length;i++) {
-                colorWindow[i] = 0xffffff;
-            }
-            for (int i=0; i<textWindow.length;i++) {
-                textWindow[i] = ' ';
-            }
+            textColorWindow = new int[width*height];
+            backGroundColorWindow = new int[width*height];
+        }
+        for (int i=0; i<backGroundColorWindow.length;i++) {
+            textColorWindow[i] = 0xffffff;
+        }
+        for (int i=0; i<backGroundColorWindow.length;i++) {
+            backGroundColorWindow[i] = 0;
+        }
+        for (int i=0; i<textWindow.length;i++) {
+            textWindow[i] = ' ';
         }
         createWindows();
     }
@@ -105,37 +123,73 @@ public final class Printer {
     }
 
     private static void addTextComponentToWindow(TextComponent textComponent){
-        String text = textComponent.getString();
-        Transform position = textComponent.getPosition();
-        int color = textComponent.getColor();
+
+        String text =           textComponent.getString();
+        Transform position =    textComponent.getPosition();
+        int color =             textComponent.getColor();
+        int backGroundColor =   textComponent.getBackGroundColor();
+        boolean transparent =   textComponent.getTransparency();
+
+        Vector2 charPos = new Vector2(position.x(), position.y());
+
         for (int i = 0; i < text.length(); i++) {
-            Vector2 charPos = new Vector2(position.x()+i, position.y());
-            if(!(charPos.x>width-1||
-                 charPos.y>height-1||
-                 charPos.x<0||
-                 charPos.y<0))
-                {
-                int windowPos = (charPos.y*width)+charPos.x;
-                textWindow[windowPos] = text.charAt(i);
-                colorWindow[windowPos] = color;
-            }
+            addCharToWindow(charPos, text, i, color, backGroundColor, transparent);
+        }
+    }
+
+    private static void addCharToWindow(Vector2 charPos, String text, int textIndex, int color, int backGroundColor, boolean transparent){
+        char character = text.charAt(textIndex);
+        charPos.x++;
+
+        if(character=='\n'){
+            charPos.x-=textIndex+1;
+            charPos.y++;
+            return;
+        }
+
+        if(!(charPos.x<width    &&
+            charPos.y<height   &&
+            charPos.x>=0       &&
+            charPos.y>=0       )){
+            return;
+        }
+
+        int windowPos = (charPos.y*width)+charPos.x;
+        backGroundColorWindow[windowPos] = backGroundColor;
+
+        if(!transparent||!(character==' ')){
+            textColorWindow[windowPos] = color;
+            textWindow[windowPos] = character;
+            return;
         }
     }
 
     private static String getString(){
         int previousColor = 0xffffff;
         int currentColor;
+        int previousBackGroundColor = 0;
+        int currentBackGroundColor;
         String finalString = "";
+
         for(int i=0; i<textWindow.length;i++){
-            currentColor = colorWindow[i];
+
+            currentColor = textColorWindow[i];
             if(currentColor != previousColor){
-                finalString+=TextColor.getColor(currentColor);
+                finalString+=TextColor.getTextColor(currentColor);
             }
+
+            currentBackGroundColor = backGroundColorWindow[i];
+            if(currentBackGroundColor != previousBackGroundColor){
+                finalString+=TextColor.getBackGroundColor(currentBackGroundColor);
+            }
+
             finalString+=textWindow[i];
             if((i+1)%width==0){
                 finalString+="\n";
             }
+
             previousColor = currentColor;
+            previousBackGroundColor = currentBackGroundColor;
         }
         return finalString;
     }
@@ -147,6 +201,12 @@ public final class Printer {
 
     public static void print(){
         System.out.print(Window);
+    }
+
+    public static void printWindows(){
+        System.out.println(Arrays.toString(textWindow));
+        System.out.println(Arrays.toString(textColorWindow));
+        System.out.println(Arrays.toString(backGroundColorWindow));
     }
 
     public static void clearTerminal(){

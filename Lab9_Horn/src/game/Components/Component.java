@@ -11,7 +11,4 @@ public abstract class Component {
     }
     public void init(){}
     public void run(){};
-    public TextComponent getText(){return null;};
-
-
 }

@@ -14,33 +14,36 @@ public class Application {
     }
 
     private void init(){
-        Printer.width = 40;
-        Printer.height = 20;
+        Printer.width = 20;
+        Printer.height = 2;
 
-        Entity text1 = new Entity("obj1", new Transform(new Vector2(0, 0)), 0);
-        text1.addComponent(new TextComponent("New Game", 0xffff, new Transform(new Vector2(1, 0))));
+        Entity text1 = new Entity("obj1", new Transform(new Vector2(1, 0)), 0);
+        text1.addComponent(new TextComponent("New Game", 0xffff));
         Printer.addToLayers(text1);
 
-        Entity text2 = new Entity("obj2", new Transform(new Vector2(0, 0)), 1);
-        text2.addComponent(new TextComponent("Hello", 0xff0000, new Transform(new Vector2(3, 0))));
+        Entity text2 = new Entity("obj2", new Transform(new Vector2(3, 0)), 1);
+        text2.addComponent(new TextComponent("Hello   ", 0xff0000, 0xff000000, true));
         Printer.addToLayers(text2);
     }
 
     public void run(){
-        Printer.clearTerminal();
+        //Printer.clearTerminal();
         System.out.println("-".repeat(Printer.width));
         Printer.print();
         System.out.println("-".repeat(Printer.width));
 
+        Printer.printWindows();
+
         Entity textEntity = Printer.getEntity("obj2");
-        TextComponent text = textEntity.getComponent("Text");
-        text.move(new Vector2(0,1));
+        textEntity.position.movePosition(new Vector2(0,1));
         Printer.update();
 
         //Printer.clearTerminal();
         System.out.println("-".repeat(Printer.width));
         Printer.print();
         System.out.println("-".repeat(Printer.width));
+
+        Printer.printWindows();
         while (gameIsRunning) {
         }
     }

@@ -46,7 +46,6 @@ public class Entity {
     public void addComponent(Component component){
         this.components.add(component);
         component.entity = this;
-        getText();
     }
 
     public <T extends Component> void removeComponent(Class<T> componentClass) {
@@ -54,25 +53,7 @@ public class Entity {
             Component component = components.get(i);
             if(componentClass.isAssignableFrom(component.getClass())){
                 components.remove(i);
-                getText();
                 return;
-            }
-        }
-    }
-
-    public List<TextComponent> getText(){
-        if(textArray==null){
-            textArray = new ArrayList<>();
-            updateTextArray();
-        }
-        return textArray;
-    }
-
-    private void updateTextArray(){
-        for (Component component : components) {
-            TextComponent text = component.getText();
-            if(text!=null){
-                textArray.add(text);
             }
         }
     }
