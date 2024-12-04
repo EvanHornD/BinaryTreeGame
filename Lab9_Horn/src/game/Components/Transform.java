@@ -31,7 +31,7 @@ public class Transform {
         return position.y;
     }
 
-    public void movePosition(Vector2 movement){
+    public void move(Vector2 movement){
         this.position = Vector2.add(this.position, movement);
         if(isClamped) clampPosition(position);
     }

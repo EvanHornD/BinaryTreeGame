@@ -4,16 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class TextColor {
-    private static final String DEFAULT = "\u001B[0m";
 
-    @SuppressWarnings("FieldMayBeFinal")
     private static Map<Integer,String> textColors = new HashMap<>(Map.of(
             0xffffff,"\u001B[38;2;255;255;255m"
     ));
 
-    @SuppressWarnings("FieldMayBeFinal")
     private static Map<Integer,String> backGroundColors = new HashMap<>(Map.of(
-        0,DEFAULT
+        0,"\u001B[48;2;0;0;0m"
     ));
 
     private TextColor() {

@@ -12,10 +12,16 @@ import java.util.List;
 
 public final class Printer {
 
+    // move variables into a camera
     public static int width = 7;
     public static int height = 5;
-    private static String Window = "";
+
+    // move variable into a renderer
     private static List<EntityLayer> layers;
+
+
+    private static String Window = "";
+
     private static char[] textWindow;
 
     /* text window format
@@ -55,6 +61,8 @@ public final class Printer {
     }
      */
     
+    //#region Renderer shoulve hold the layers
+    // gets an entity based on its name
     public static Entity getEntity(String name){
         for (EntityLayer layer : layers) {
             if (layer.containsEntity(name)) {
@@ -64,6 +72,7 @@ public final class Printer {
         return null;
     }
 
+    // adds 
     public static void addToLayers(Entity entity){
         if(layers==null){
             layers = new ArrayList<>();
@@ -92,10 +101,16 @@ public final class Printer {
         return true;
     }
 
+    
     public static void loadLayers(){
         if(layers==null){
             layers = new ArrayList<>();
         }
+        clearWindows();
+        createWindows();
+    }
+
+    private static void clearWindows(){
         if(textWindow==null){
             textWindow = new char[width*height];
             textColorWindow = new int[width*height];
@@ -110,7 +125,6 @@ public final class Printer {
         for (int i=0; i<textWindow.length;i++) {
             textWindow[i] = ' ';
         }
-        createWindows();
     }
 
     private static void createWindows(){
@@ -124,11 +138,11 @@ public final class Printer {
 
     private static void addTextComponentToWindow(TextComponent textComponent){
 
-        String text =           textComponent.getString();
-        Transform position =    textComponent.getPosition();
-        int color =             textComponent.getColor();
-        int backGroundColor =   textComponent.getBackGroundColor();
-        boolean transparent =   textComponent.getTransparency();
+        String         text = textComponent.getString();
+        Transform  position = textComponent.getPosition();
+        int           color = textComponent.getColor();
+        int backGroundColor = textComponent.getBackGroundColor();
+        boolean transparent = textComponent.getTransparency();
 
         Vector2 charPos = new Vector2(position.x(), position.y());
 
@@ -141,12 +155,14 @@ public final class Printer {
         char character = text.charAt(textIndex);
         charPos.x++;
 
+        // checks if the character is the next line character
         if(character=='\n'){
             charPos.x = textPos.x();
             charPos.y++;
             return;
         }
 
+        // checks if the character is out of bounds
         if(!(charPos.x<width   &&
             charPos.y<height   &&
             charPos.x>=0       &&
@@ -154,23 +170,27 @@ public final class Printer {
             return;
         }
 
+        // gets the index in the window arrays from the the current position
         int windowPos = (charPos.y*width)+charPos.x;
 
-        if(transparent&&character==' '){
+        // check transparency
+        if(!transparent){
             backGroundColorWindow[windowPos] = backGroundColor;
+            textColorWindow[windowPos] = color;
+            textWindow[windowPos] = character;
             return;
         }
 
-        if (transparent) {
-            System.out.println(backGroundColor);
-            if(backGroundColor>>24!=0){
-                backGroundColorWindow[windowPos] = backGroundColor;
-            }
-            textColorWindow[windowPos] = color;
-            textWindow[windowPos] = character;
+        // override the background color if it has one
+        if(backGroundColor>>24!=0){
+            backGroundColorWindow[windowPos] = backGroundColor;
         }
-        
-        backGroundColorWindow[windowPos] = backGroundColor;
+
+        // check if the character is a space
+        if(character==' '){
+            return;
+        }
+
         textColorWindow[windowPos] = color;
         textWindow[windowPos] = character;
     }
@@ -184,14 +204,14 @@ public final class Printer {
 
         for(int i=0; i<textWindow.length;i++){
 
-            currentColor = textColorWindow[i];
-            if(currentColor != previousColor){
-                finalString+=TextColor.getTextColor(currentColor);
-            }
-
             currentBackGroundColor = backGroundColorWindow[i];
             if(currentBackGroundColor != previousBackGroundColor){
                 finalString+=TextColor.getBackGroundColor(currentBackGroundColor);
+            }
+
+            currentColor = textColorWindow[i];
+            if(currentColor != previousColor){
+                finalString+=TextColor.getTextColor(currentColor);
             }
 
             finalString+=textWindow[i];
