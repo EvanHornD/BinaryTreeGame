@@ -1,14 +1,14 @@
 package game.Printing;
 
+import game.Components.TextComponent;
+import game.Components.Transform;
+import game.Entity;
+import game.Utils.Vector2;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import game.Entity;
-import game.Components.TextComponent;
-import game.Components.Transform;
-import game.Utils.Vector2;
 
 public final class Printer {
 
@@ -133,21 +133,21 @@ public final class Printer {
         Vector2 charPos = new Vector2(position.x(), position.y());
 
         for (int i = 0; i < text.length(); i++) {
-            addCharToWindow(charPos, text, i, color, backGroundColor, transparent);
+            addCharToWindow(position, charPos, text, i, color, backGroundColor, transparent);
         }
     }
 
-    private static void addCharToWindow(Vector2 charPos, String text, int textIndex, int color, int backGroundColor, boolean transparent){
+    private static void addCharToWindow(Transform textPos, Vector2 charPos, String text, int textIndex, int color, int backGroundColor, boolean transparent){
         char character = text.charAt(textIndex);
         charPos.x++;
 
         if(character=='\n'){
-            charPos.x-=textIndex+1;
+            charPos.x = textPos.x();
             charPos.y++;
             return;
         }
 
-        if(!(charPos.x<width    &&
+        if(!(charPos.x<width   &&
             charPos.y<height   &&
             charPos.x>=0       &&
             charPos.y>=0       )){
@@ -155,13 +155,24 @@ public final class Printer {
         }
 
         int windowPos = (charPos.y*width)+charPos.x;
-        backGroundColorWindow[windowPos] = backGroundColor;
 
-        if(!transparent||!(character==' ')){
-            textColorWindow[windowPos] = color;
-            textWindow[windowPos] = character;
+        if(transparent&&character==' '){
+            backGroundColorWindow[windowPos] = backGroundColor;
             return;
         }
+
+        if (transparent) {
+            System.out.println(backGroundColor);
+            if(backGroundColor>>24!=0){
+                backGroundColorWindow[windowPos] = backGroundColor;
+            }
+            textColorWindow[windowPos] = color;
+            textWindow[windowPos] = character;
+        }
+        
+        backGroundColorWindow[windowPos] = backGroundColor;
+        textColorWindow[windowPos] = color;
+        textWindow[windowPos] = character;
     }
 
     private static String getString(){
@@ -211,6 +222,6 @@ public final class Printer {
 
     public static void clearTerminal(){
         try { new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();}
-        catch (Exception e) {}
+        catch (IOException | InterruptedException e) {}
     }
 }

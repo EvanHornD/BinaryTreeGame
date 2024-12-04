@@ -1,22 +1,20 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import game.Components.Component;
-import game.Components.TextComponent;
 import game.Components.Transform;
 import game.Utils.Components;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Entity {
 
     public String name;
     public Transform position;
+    @SuppressWarnings("FieldMayBeFinal")
     private int zIndex;
+    @SuppressWarnings("FieldMayBeFinal")
     private List<Component> components;
-    private List<TextComponent> textArray;
     
-
     public Entity(String name){
         this.zIndex = 0;
         this.name = name;

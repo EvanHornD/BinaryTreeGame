@@ -15,14 +15,22 @@ public class Application {
 
     private void init(){
         Printer.width = 20;
-        Printer.height = 2;
+        Printer.height = 7;
 
-        Entity text1 = new Entity("obj1", new Transform(new Vector2(1, 0)), 0);
-        text1.addComponent(new TextComponent("New Game", 0xffff));
+        Entity text1 = new Entity("obj1", new Transform(new Vector2(0, 0)), 0);
+        text1.addComponent(new TextComponent("""
+                                             #==========#
+                                             |          |
+                                             |          |
+                                             |          |
+                                             |          |
+                                             #==========#
+                                             """,
+                                            0x0f0f0f,0xff000000,false));
         Printer.addToLayers(text1);
 
         Entity text2 = new Entity("obj2", new Transform(new Vector2(3, 0)), 1);
-        text2.addComponent(new TextComponent("Hello   ", 0xff0000, 0xff000000, true));
+        text2.addComponent(new TextComponent("Welcome", 0xff0000, true));
         Printer.addToLayers(text2);
     }
 
@@ -43,7 +51,6 @@ public class Application {
         Printer.print();
         System.out.println("-".repeat(Printer.width));
 
-        Printer.printWindows();
         while (gameIsRunning) {
         }
     }
