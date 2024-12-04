@@ -33,20 +33,6 @@ public class TextComponent extends Component {
         this.transparent = transparent;
     }
 
-    public TextComponent(String text, boolean transparent){
-        this.text = text;
-        this.color = 0xffffff;
-        this.backGroundColor = 0;
-        this.transparent = transparent;
-    }
-
-    public TextComponent(String text, int color, int backGroundColor){
-        this.text = text;
-        this.color = color;
-        this.backGroundColor = backGroundColor;
-        this.transparent = false;
-    }
-
     public TextComponent(String text, int color, int backGroundColor, boolean transparent){
         this.text = text;
         this.color = color;

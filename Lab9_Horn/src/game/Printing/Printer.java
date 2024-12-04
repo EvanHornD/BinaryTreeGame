@@ -12,10 +12,8 @@ import java.util.List;
 
 public final class Printer {
 
-    // move variables into a camera
-    public static int width = 7;
-    public static int height = 5;
-
+    public static Camera camera = new Camera();
+ 
     // move variable into a renderer
     private static List<EntityLayer> layers;
 
@@ -112,9 +110,10 @@ public final class Printer {
 
     private static void clearWindows(){
         if(textWindow==null){
-            textWindow = new char[width*height];
-            textColorWindow = new int[width*height];
-            backGroundColorWindow = new int[width*height];
+            int windowDimensions = camera.width()*camera.height();
+            textWindow =            new char[windowDimensions];
+            textColorWindow =       new  int[windowDimensions];
+            backGroundColorWindow = new  int[windowDimensions];
         }
         for (int i=0; i<backGroundColorWindow.length;i++) {
             textColorWindow[i] = 0xffffff;
@@ -163,15 +162,12 @@ public final class Printer {
         }
 
         // checks if the character is out of bounds
-        if(!(charPos.x<width   &&
-            charPos.y<height   &&
-            charPos.x>=0       &&
-            charPos.y>=0       )){
+        if(!camera.checkCoords(charPos)){
             return;
         }
 
         // gets the index in the window arrays from the the current position
-        int windowPos = (charPos.y*width)+charPos.x;
+        int windowPos = (charPos.y*camera.width())+charPos.x;
 
         // check transparency
         if(!transparent){
@@ -187,12 +183,10 @@ public final class Printer {
         }
 
         // check if the character is a space
-        if(character==' '){
-            return;
+        if(character!=' '){
+            textColorWindow[windowPos] = color;
+            textWindow[windowPos] = character;
         }
-
-        textColorWindow[windowPos] = color;
-        textWindow[windowPos] = character;
     }
 
     private static String getString(){
@@ -215,7 +209,7 @@ public final class Printer {
             }
 
             finalString+=textWindow[i];
-            if((i+1)%width==0){
+            if((i+1)%camera.width()==0){
                 finalString+="\n";
             }
 

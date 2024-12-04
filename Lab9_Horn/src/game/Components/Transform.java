@@ -43,8 +43,8 @@ public class Transform {
 
     private static void clampPosition(Vector2 position){
         position.x = Integer.max(0, position.x);
-        position.x = Integer.min(Printer.width, position.x);
+        position.x = Integer.min(Printer.camera.width(), position.x);
         position.y = Integer.max(0, position.y);
-        position.y = Integer.min(Printer.height, position.y);
+        position.y = Integer.min(Printer.camera.height(), position.y);
     }
 }

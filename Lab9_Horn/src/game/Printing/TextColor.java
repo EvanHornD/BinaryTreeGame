@@ -42,9 +42,6 @@ public final class TextColor {
     }
     
     private static String createBackGroundColorString(int rgb){
-        if(rgb>>24==0){
-            return "";
-        }
         String color =  "\u001B[48;2;" +
                         ((rgb>>16)&0xff)+";" +
                         ((rgb>>8)&0xff)+";" +
