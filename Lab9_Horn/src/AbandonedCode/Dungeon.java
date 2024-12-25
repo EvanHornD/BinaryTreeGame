@@ -3,7 +3,7 @@ package AbandonedCode;
 import java.util.Random;
 
 import game.Application;
-import game.Printing.Printer;
+import game.Printing.Terminal;
 import game.Utils.Input;
 
 public class Dungeon {
