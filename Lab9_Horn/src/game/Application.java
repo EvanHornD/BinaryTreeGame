@@ -1,63 +1,120 @@
 package game;
 
+import java.util.Arrays;
+
 import game.Components.TextComponent;
 import game.Components.Transform;
-import game.Printing.Printer;
+import game.Printing.Pixel;
+import game.Printing.Terminal;
+import game.Printing.Texture;
+import game.Scenes.Scene;
+import game.UserInput.RawConsoleInput;
+import game.Utils.Color;
+import game.Utils.Time;
 import game.Utils.Vector2;
 
 public class Application {
 
     public static boolean gameIsRunning = true;
+    public static Scene scene;
 
     public Application(){
         init();
     }
 
     private void init(){
-        System.out.println("\u001B[48;2;0;0;0m");
+        scene = new Scene();
 
-        Entity text1 = new Entity("obj1", new Transform(new Vector2(1, 0)), 2);
-        text1.addComponent(new TextComponent("""
-                                             #==========#
-                                             |          |
-                                             |          |
-                                             |          |
-                                             |          |
-                                             |          |
-                                             |          |
-                                             #==========#
-                                             """,
-                                            0x0f0f0f,0xffffffff,false));
-        Printer.addToLayers(text1);
+        Texture texture1 = new Texture.Builder()
+        .setText("""
+                #==========#
+                |          |
+                |          |
+                |          |
+                |          |
+                |          |
+                |          |
+                #==========#
+                """)
+        .setTextColor(new Color(200,100,200))
+        .setBackGroundColor(new Color(255,16,16,16))
+        .build();
 
-        Entity text2 = new Entity("obj2", new Transform(new Vector2(0, 2)), 1);
-        text2.addComponent(new TextComponent("""
-                                             #============#
-                                             |  Welcome!  |
-                                             #============#
-                                             """,
-                                            0xff0000, true));
-        Printer.addToLayers(text2);
+        Entity text1 = new Entity("test", new Transform(new Vector2(0, 0)), 0);
+        text1.addComponent(new TextComponent(texture1));
+        scene.addEntity(text1);
+
+        Texture texture2 = new Texture.Builder()
+        .setText("""
+                #===========#
+                |  Welcome  |
+                #===========#
+                """)
+        .setTextColor(new Color(100,200,200))
+        .setBackGroundColor(new Color(255,16,16,16))
+        .build();
+
+        Entity text2 = new Entity("Welcome", new Transform(new Vector2(0, 0)), 1);
+        text2.addComponent(new TextComponent(texture2));
+        scene.addEntity(text2);
+
+
+        Texture fps = new Texture.Builder()
+        .setText("""
+                FPS: 0
+                """)
+        .setTextColor(new Color(255,255,255))
+        .build();
+
+        Entity fpsEntity = new Entity("fps", new Transform(new Vector2(0, 10)), 2);
+        fpsEntity.addComponent(new TextComponent(fps));
+        scene.addEntity(fpsEntity);
+
+        // Entity text3 = new Entity("obj3", new Transform(new Vector2(0, 2)), 1);
+        // text3.addComponent(new TextComponent("""
+        //                                      |  Welcome   |
+        //                                      """,
+        //                                     new Color(255,0,0), new Color(127, 0, 0, 255)));
+        // scene.addEntity(text3);
+
+        Terminal.update();
+        Terminal.print();
     }
 
     public void run(){
-        //Printer.clearTerminal();
-        System.out.println("-".repeat(Printer.camera.width()));
-        Printer.print();
-        System.out.println("-".repeat(Printer.camera.width()));
-        //Printer.printWindows();
+        float beginTime = Time.getTime();
+        float endTime;
+        float dt = -1.0f;
 
-        Entity textEntity = Printer.getEntity("obj1");
-        textEntity.position.move(new Vector2(1,1));
-        Printer.update();
+        Entity textEntity = scene.getEntity("test");
+        Entity fps = scene.getEntity("fps");
+        TextComponent fpstextcomponent = fps.getComponent("Text");
 
-        //Printer.clearTerminal();
-        System.out.println("-".repeat(Printer.camera.width()));
-        Printer.print();
-        System.out.println("-".repeat(Printer.camera.width()));
-        while (gameIsRunning) {
+        while(gameIsRunning){
+            Terminal.print();
+
+            textEntity.position.move(new Vector2(.1f,0));
+
+            endTime = Time.getTime();
+            dt = endTime-beginTime;
+            beginTime = endTime;
+
+            fpstextcomponent.setTexture(new Texture.Builder()
+                            .setText("FPS: "+1/dt)
+                            .build());
+            //System.out.print(Arrays.toString(fpsTexture.getPixels()));
+
+            Terminal.update();
         }
+        resetConsoleMode();
     }
 
-
+    private static void resetConsoleMode(){
+        try {
+            RawConsoleInput.resetConsoleMode(); // Reset console mode to normal
+        } catch (Exception e) {
+            System.err.println("Failed to reset console mode.");
+            e.printStackTrace();
+        }
+    }
 }
