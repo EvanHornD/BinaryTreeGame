@@ -1,62 +1,25 @@
 package game.Components;
 
+import game.Printing.Texture;
 import game.Utils.Components;
 
 public class TextComponent extends Component {
-    private int color;
-    private int backGroundColor;
-    private String text;
-    private boolean transparent;
+    private Texture texture;
 
     static {
         Components.add("Text",TextComponent.class);
     }
 
-    public TextComponent(String text){
-        this.color = 0xffffff;
-        this.backGroundColor = 0;
-        this.text = text;
-        this.transparent = false;
+    public TextComponent(Texture texture){
+        this.texture = texture;
     }
 
-    public TextComponent(String text, int color){
-        this.text = text;
-        this.color = color;
-        this.backGroundColor = 0;
-        this.transparent = false;
+    public void setTexture(Texture texture){
+        this.texture = texture;
     }
+    
+    public Transform getPosition(){ return this.entity.position; }
 
-    public TextComponent(String text, int color, boolean transparent){
-        this.text = text;
-        this.color = color;
-        this.backGroundColor = 0;
-        this.transparent = transparent;
-    }
+    public Texture getTexture(){ return this.texture; }
 
-    public TextComponent(String text, int color, int backGroundColor, boolean transparent){
-        this.text = text;
-        this.color = color;
-        this.backGroundColor = backGroundColor;
-        this.transparent = transparent;
-    }
-
-    public int getColor(){
-        return this.color;
-    }
-
-    public Transform getPosition(){
-        return this.entity.position;
-    }
-
-    public boolean getTransparency(){
-        return this.transparent;
-    }
-
-    public int getBackGroundColor(){
-        return this.backGroundColor;
-    }
-
-    public String getString(){
-        return this.text;
-    }
 }

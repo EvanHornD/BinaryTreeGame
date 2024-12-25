@@ -10,9 +10,7 @@ public class Entity {
 
     public String name;
     public Transform position;
-    @SuppressWarnings("FieldMayBeFinal")
     private int zIndex;
-    @SuppressWarnings("FieldMayBeFinal")
     private List<Component> components;
     
     public Entity(String name){

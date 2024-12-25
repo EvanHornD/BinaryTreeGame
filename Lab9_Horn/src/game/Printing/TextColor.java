@@ -5,6 +5,8 @@ import java.util.Map;
 
 public final class TextColor {
 
+    public static final String RESET = "\033[m";
+
     private static Map<Integer,String> textColors = new HashMap<>(Map.of(
             0xffffff,"\u001B[38;2;255;255;255m"
     ));

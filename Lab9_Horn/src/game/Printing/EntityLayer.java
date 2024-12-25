@@ -16,24 +16,6 @@ public class EntityLayer implements Comparable<EntityLayer> {
         this.entityArray = new ArrayList<>();
     }
 
-    public boolean containsEntity(String name){
-        for (Entity entity : entityArray) {
-            if(entity.name==name){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Entity getEntity(String name){
-        for (Entity entity : entityArray) {
-            if(entity.name==name){
-                return entity;
-            }
-        }
-        return null;
-    }
-
     public void addEntity(Entity entity){
         entityArray.add(entity);
         updateTextArray();
