@@ -46,15 +46,62 @@ public class Application {
 
         Texture texture2 = new Texture.Builder()
         .setText("""
-                #===========#
-                |  Welcome  |
-                #===========#
+                #==================================================================================================================================================================================#
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                |                                                                                                                                                                                  |
+                #==================================================================================================================================================================================#
                 """)
         .setTextColor(new Color(100,200,200))
         .setBackGroundColor(new Color(255,16,16,16))
         .build();
 
-        Entity text2 = new Entity("Welcome", new Transform(new Vector2(0, 0)), 1);
+        Entity text2 = new Entity("Welcome", new Transform(new Vector2(0, 0)), -1);
         text2.addComponent(new TextComponent(texture2));
         scene.addEntity(text2);
 
@@ -70,12 +117,15 @@ public class Application {
         fpsEntity.addComponent(new TextComponent(fps));
         scene.addEntity(fpsEntity);
 
-        // Entity text3 = new Entity("obj3", new Transform(new Vector2(0, 2)), 1);
-        // text3.addComponent(new TextComponent("""
-        //                                      |  Welcome   |
-        //                                      """,
-        //                                     new Color(255,0,0), new Color(127, 0, 0, 255)));
-        // scene.addEntity(text3);
+        Texture Vec2 = new Texture.Builder()
+        .setText("""
+                pen15
+                """)
+        .build();
+
+        Entity Vector2 = new Entity("Vec2", new Transform(new Vector2(0, 12)), 3);
+        Vector2.addComponent(new TextComponent(Vec2));
+        scene.addEntity(Vector2);
 
         Terminal.update();
         Terminal.print();
@@ -87,17 +137,25 @@ public class Application {
         float dt = -1.0f;
 
         Entity textEntity = scene.getEntity("test");
+        Entity textEntity2 = scene.getEntity("Welcome");
+        TextComponent textcomponent2 = textEntity2.getComponent("Text");
+
         Entity fps = scene.getEntity("fps");
         TextComponent fpstextcomponent = fps.getComponent("Text");
+
+        Entity Vec2 = scene.getEntity("Vec2");
+        TextComponent Vec2textcomponent = Vec2.getComponent("Text");
 
         while(gameIsRunning){
             Terminal.print();
 
-            textEntity.position.move(new Vector2(.1f,0));
+            textEntity.position.move(new Vector2(.1f,.1f));
 
             endTime = Time.getTime();
             dt = endTime-beginTime;
             beginTime = endTime;
+
+
 
             fpstextcomponent.setTexture(new Texture.Builder()
                             .setText("FPS: "+1/dt)

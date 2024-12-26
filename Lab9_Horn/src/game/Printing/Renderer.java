@@ -17,7 +17,7 @@ public class Renderer {
     public Renderer(Camera camera){
         this.layerMap = new LayerMap();
         this.camera = camera;
-        setDimensions(new Vector2(120, 30));
+        setDimensions(new Vector2(180, 50));
         resetWindows();
     }
 
@@ -88,7 +88,8 @@ public class Renderer {
         pixels[windowPos] = Pixel.overlayPixels(pixel, pixels[windowPos]);
     }
 
-   public String getString(){
+    @Override
+    public String toString(){
         Pixel previousPixel = Pixel.NULL_PIXEL;
         Pixel currentPixel = pixels[0];
 
@@ -116,7 +117,6 @@ public class Renderer {
                 previousPixel = Pixel.NULL_PIXEL;
                 previousColor = previousPixel.getColor();
                 previousBackGroundColor = previousPixel.getBackGroundColor();
-                finalString+=TextColor.RESET;
                 continue;
             }
             

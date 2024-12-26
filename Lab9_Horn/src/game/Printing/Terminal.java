@@ -9,7 +9,7 @@ public final class Terminal {
 
     public static void update(){
         Application.scene.renderer().updateWindows();
-        Window = Application.scene.renderer().getString();
+        Window = Application.scene.renderer().toString();
     }
 
     public static void drawWindow(Vector2 dimensions){
