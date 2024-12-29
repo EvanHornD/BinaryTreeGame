@@ -12,13 +12,13 @@ public final class Terminal {
         Window = Application.scene.renderer().toString();
     }
 
-    public static void drawWindow(Vector2 dimensions){
-        Window = "";
+    public static String emptyWindow(){
+        Vector2 dimensions = Application.scene.renderer().camera.dimensions;
+        String emptyWindow = "\033[1;0H";
         for (int i = 0; i < dimensions.y; i++) {
-            Window += " ".repeat((int)dimensions.x) + '\n';
+            emptyWindow += " ".repeat((int)dimensions.x) + "\033["+(i)+";0H";
         }
-        clearTerminal();
-        print();
+        return emptyWindow;
     }
 
     public static void print(){
@@ -28,6 +28,7 @@ public final class Terminal {
 
     public static void clearTerminal(){
         System.out.print("\033[H\033[2J");
+        System.out.print(emptyWindow());
         System.out.flush();
     }
 }

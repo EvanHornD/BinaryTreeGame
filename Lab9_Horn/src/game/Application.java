@@ -24,6 +24,8 @@ public class Application {
 
     private void init(){
         scene = new Scene();
+        Terminal.clearTerminal();
+
 
         Texture texture1 = new Texture.Builder()
         .setText("""
@@ -117,16 +119,6 @@ public class Application {
         fpsEntity.addComponent(new TextComponent(fps));
         scene.addEntity(fpsEntity);
 
-        Texture Vec2 = new Texture.Builder()
-        .setText("""
-                pen15
-                """)
-        .build();
-
-        Entity Vector2 = new Entity("Vec2", new Transform(new Vector2(0, 12)), 3);
-        Vector2.addComponent(new TextComponent(Vec2));
-        scene.addEntity(Vector2);
-
         Terminal.update();
         Terminal.print();
     }
@@ -137,14 +129,11 @@ public class Application {
         float dt = -1.0f;
 
         Entity textEntity = scene.getEntity("test");
-        Entity textEntity2 = scene.getEntity("Welcome");
-        TextComponent textcomponent2 = textEntity2.getComponent("Text");
+
 
         Entity fps = scene.getEntity("fps");
         TextComponent fpstextcomponent = fps.getComponent("Text");
 
-        Entity Vec2 = scene.getEntity("Vec2");
-        TextComponent Vec2textcomponent = Vec2.getComponent("Text");
 
         while(gameIsRunning){
             Terminal.print();
@@ -155,12 +144,9 @@ public class Application {
             dt = endTime-beginTime;
             beginTime = endTime;
 
-
-
             fpstextcomponent.setTexture(new Texture.Builder()
                             .setText("FPS: "+1/dt)
                             .build());
-            //System.out.print(Arrays.toString(fpsTexture.getPixels()));
 
             Terminal.update();
         }

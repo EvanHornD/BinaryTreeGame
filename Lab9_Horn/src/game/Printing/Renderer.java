@@ -27,7 +27,6 @@ public class Renderer {
     }
 
     public void setDimensions(Vector2 dimensions){
-        Terminal.drawWindow(dimensions);
         camera.setDimensions(dimensions);
     }
 
@@ -113,16 +112,16 @@ public class Renderer {
                 finalString+="\033["+currentHeight+';'+0+'H';
             } 
 
-            if(currentPixel==Pixel.NULL_PIXEL){
-                previousPixel = Pixel.NULL_PIXEL;
-                previousColor = previousPixel.getColor();
-                previousBackGroundColor = previousPixel.getBackGroundColor();
-                continue;
-            }
+            // if(currentPixel==Pixel.NULL_PIXEL){
+            //     previousPixel = Pixel.NULL_PIXEL;
+            //     previousColor = previousPixel.getColor();
+            //     previousBackGroundColor = previousPixel.getBackGroundColor();
+            //     continue;
+            // }
             
-            if((previousPixel==Pixel.NULL_PIXEL)){
-                finalString+="\033["+currentHeight+';'+(i%camera.width())+'H';
-            }
+            // if((previousPixel==Pixel.NULL_PIXEL)){
+            //     finalString+="\033["+currentHeight+';'+(i%camera.width())+'H';
+            // }
 
             if(currentColor!=previousColor){
                 finalString+=TextColor.getTextColor(currentColor);
